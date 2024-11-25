@@ -235,12 +235,14 @@ void custom_function( Cell* pCell, Phenotype& phenotype , double dt )
     if (fabs(x1 - x0) < 4.0)
     {
         // pc0->phenotype.motility.motility_vector = {0.0, 0.0, 0.0};
-        // pc0->is_movable = false;
-        // pc1->is_movable = false;
-        pc0->phenotype.motility.migration_bias_direction = {0,0,0}; 
+        // pc0->phenotype.motility.migration_bias_direction = {0,0,0}; 
+        pc0->phenotype.motility.migration_speed = 0.0; 
+        // pc0->phenotype.mechanics.cell_cell_repulsion_strength = 0.0; 
 
         // pc1->phenotype.motility.motility_vector = {0.0, 0.0, 0.0};
-        pc1->phenotype.motility.migration_bias_direction = {0,0,0}; 
+        // pc1->phenotype.motility.migration_bias_direction = {0,0,0}; 
+        pc1->phenotype.motility.migration_speed = 0.0; 
+        // pc1->phenotype.mechanics.cell_cell_repulsion_strength = 0.0; 
         return;
     }
     std::cout << "  x0,x1= " << pc0->position[0] << ", " << pc1->position[0] << std::endl;
