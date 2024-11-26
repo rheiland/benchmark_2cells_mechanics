@@ -174,12 +174,6 @@ int main( int argc, char* argv[] )
 		report_file<<"simulated time\tnum cells\tnum division\tnum death\twall time"<<std::endl;
 	}
 	
-    // --------  rwh: custom file for plotting time vs. distance (between 2 cells)
-    char path_filename [1024]; 
-	sprintf( path_filename , "time_dist.mat"); 
-    std::vector<double> tvals;
-    std::vector<double> dvals;
-
 	// main loop 
 	
 	try 
@@ -217,9 +211,6 @@ int main( int argc, char* argv[] )
 					PhysiCell_globals.SVG_output_index++; 
 					PhysiCell_globals.next_SVG_save_time  += PhysiCell_settings.SVG_save_interval;
 				}
-                tvals.push_back(PhysiCell_globals.current_time);
-                double dist = (*all_cells)[1]->position[0] - (*all_cells)[0]->position[0];
-                dvals.push_back(dist);
 			}
 
 			// update the microenvironment
@@ -245,34 +236,6 @@ int main( int argc, char* argv[] )
 	{ // reference to the base of a polymorphic object
 		std::cout << e.what(); // information from length_error printed
 	}
-
-    // -----------  rwh: - if want special terminators (-99)
-    // tvals.push_back(PhysiCell_globals.current_time);
-    // dvals.push_back(PhysiCell_globals.current_time);
-    // std::cout << "main.cpp: -------- final time= " << PhysiCell_globals.current_time << std::endl; 
-
-    // tvals.push_back(-99.0);
-    // dvals.push_back(-99.0);
-
-        // ------ rwh: custom plot: time, distance between 2 cells ----------
-    int ncols = 2;
-    int nrows = tvals.size();  
-    std::cout << "main.cpp: -------- nrows (for .mat) = " << nrows << std::endl; 
-    FILE* fp = write_matlab_header( nrows, ncols,  path_filename, "time_dist" );  
-    if( fp == NULL )
-    { 
-        std::cout << std::endl << "main.cpp: Error: Failed to open " << filename << " for MAT writing." << std::endl << std::endl; 
-
-        std::cout << std::endl << "Error: We're not writing data like we expect. " << std::endl
-        << "Check to make sure your save directory exists. " << std::endl << std::endl
-        << "I'm going to exit with a crash code of -1 now until " << std::endl 
-        << "you fix your directory. Sorry!" << std::endl << std::endl; 
-        exit(-1); 
-    } 
-    std::fwrite( tvals.data(), sizeof(char), 8*tvals.size() , fp ); 
-    std::fwrite( dvals.data(), sizeof(char), 8*dvals.size() , fp ); 
-    std::fclose(fp); 
-
 	
 	// save a final simulation snapshot 
 	
